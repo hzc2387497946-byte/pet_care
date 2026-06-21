@@ -371,6 +371,9 @@ function Contact() {
                 <option>其他</option>
               </select>
             </FormLabel>
+            <FormLabel label="期望到店时间">
+              <input type="datetime-local" name="arrivalTime" />
+            </FormLabel>
             <FormLabel label="预约需求">
               <textarea
                 name="message"
