@@ -57,16 +57,43 @@ const reviews = [
   {
     copy: "我家比熊以前洗澡很紧张，这里美容师会慢慢哄，洗完毛很蓬，眼周也修得干净。",
     name: "豆豆家长",
+    pet: "比熊 · 精致洗护",
     rating: 5,
   },
   {
     copy: "猫咪洗护最怕应激，店里能提前约安静时段，回来以后状态很好，细节反馈也认真。",
     name: "奶茶家长",
+    pet: "英短 · 安静时段洗护",
     rating: 4,
   },
   {
     copy: "价格透明，不会临时乱加项目。毛结情况会先拍照沟通，剪完比想象中自然。",
     name: "Lucky家长",
+    pet: "贵宾 · 美容造型",
+    rating: 5,
+  },
+  {
+    copy: "第一次带小柴来，美容师先让它熟悉环境再开始。洗完没有乱喷香精，毛摸起来很清爽。",
+    name: "丸子家长",
+    pet: "柴犬 · 基础洗护",
+    rating: 5,
+  },
+  {
+    copy: "我家猫胆子小，之前去别处会躲一天。这次回家还能正常吃饭，过程反馈也让我很安心。",
+    name: "芝麻家长",
+    pet: "布偶 · 猫咪护理",
+    rating: 5,
+  },
+  {
+    copy: "肚皮和脚底毛修得很细，耳朵也清理得干净。交付时会提醒皮肤状态和日常梳毛方法。",
+    name: "年糕家长",
+    pet: "柯基 · 全套护理",
+    rating: 5,
+  },
+  {
+    copy: "预约制真的省心，到店不用排队。狗狗洗护结束还有照片确认，家里老人看了也放心。",
+    name: "可乐家长",
+    pet: "金毛 · 洗护除废毛",
     rating: 4,
   },
 ];
@@ -306,22 +333,38 @@ function Process() {
 }
 
 function Reviews() {
+  const reviewLoop = [...reviews, ...reviews];
+
   return (
-    <section className="section-shell bg-white" aria-label="客户评价">
+    <section className="section-shell overflow-hidden bg-white" aria-label="客户评价">
       <SectionHead
-        title="附近主人常来的理由"
-        copy="不是流水线速度，而是让宠物愿意下次再来。"
+        title="被附近主人反复选择的理由"
+        copy="从第一次紧张试洗，到后来主动进门，每一条评价都来自一次被认真对待的洗护。"
       />
-      <div className="mx-auto grid max-w-6xl gap-5 md:grid-cols-3">
-        {reviews.map((review) => (
-          <article className="rounded-lg border border-line bg-cream p-7" key={review.name}>
-            <div className="text-lg tracking-normal text-coral" aria-label={`${review.rating}星评价`}>
-              {renderStars(review.rating)}
-            </div>
-            <p className="mt-4 text-muted">{review.copy}</p>
-            <strong className="mt-5 block text-ink">{review.name}</strong>
-          </article>
-        ))}
+      <div className="reviews-marquee mx-auto max-w-6xl" aria-live="off">
+        <div className="reviews-track">
+          {reviewLoop.map((review, index) => (
+            <article
+              className="min-h-[260px] w-[min(82vw,360px)] shrink-0 rounded-lg border border-line bg-cream p-7 shadow-soft"
+              key={review.name + "-" + index}
+              aria-hidden={index >= reviews.length}
+            >
+              <div
+                className="text-lg tracking-normal text-coral"
+                aria-label={review.rating + "星评价"}
+              >
+                {renderStars(review.rating)}
+              </div>
+              <p className="mt-4 text-muted">“{review.copy}”</p>
+              <div className="mt-6 flex items-center justify-between gap-4 border-t border-line pt-4">
+                <strong className="block text-ink">{review.name}</strong>
+                <span className="rounded-full bg-white px-3 py-1 text-xs font-bold text-sage-dark">
+                  {review.pet}
+                </span>
+              </div>
+            </article>
+          ))}
+        </div>
       </div>
     </section>
   );
