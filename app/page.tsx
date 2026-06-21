@@ -1,6 +1,31 @@
 import Image from "next/image";
 import { ProcessCarousel } from "@/components/ProcessCarousel";
 
+export const dynamic = "force-dynamic";
+
+const STORE_TIME_ZONE = "Asia/Shanghai";
+
+function getTomorrowMorningArrivalTime() {
+  const now = new Date();
+  const shanghaiDateParts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: STORE_TIME_ZONE,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  })
+    .format(now)
+    .split("-")
+    .map(Number);
+
+  const [year, month, day] = shanghaiDateParts;
+  const tomorrow = new Date(Date.UTC(year, month - 1, day + 1));
+  const yyyy = tomorrow.getUTCFullYear();
+  const mm = String(tomorrow.getUTCMonth() + 1).padStart(2, "0");
+  const dd = String(tomorrow.getUTCDate()).padStart(2, "0");
+
+  return `${yyyy}-${mm}-${dd}T09:30`;
+}
+
 const services = [
   {
     icon: "浴",
@@ -371,6 +396,8 @@ function Reviews() {
 }
 
 function Contact() {
+  const defaultArrivalTime = getTomorrowMorningArrivalTime();
+
   return (
     <section className="section-shell bg-sage-dark text-white" id="contact">
       <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[1fr_420px] lg:items-start">
@@ -415,7 +442,11 @@ function Contact() {
               </select>
             </FormLabel>
             <FormLabel label="期望到店时间">
-              <input type="datetime-local" name="arrivalTime" />
+              <input
+                type="datetime-local"
+                name="arrivalTime"
+                defaultValue={defaultArrivalTime}
+              />
             </FormLabel>
             <FormLabel label="预约需求">
               <textarea
